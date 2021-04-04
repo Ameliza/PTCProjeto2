@@ -15,12 +15,13 @@ class Cliente():
         self.s.bind(('0.0.0.0', 0))
         self.s.connect(('127.0.0.1', 8888)) # passar IP de destino por argumento de linha
 
-    def authenticate(self):
-        auth = provaonline_pb2.LOGIN()
-        auth.login = self.usuario
-        auth.senha = self.senha
+        self.msg = provaonline_pb2.MENSAGEM()
 
-        data = auth.SerializeToString()
+    def authenticate(self):
+        self.msg.login.login = self.usuario
+        self.msg.login.senha = self.senha
+
+        data = self.msg.SerializeToString()
         print('Mensagem codificada:', data)
 
         self.s.send(data) # envia dados pelo socket
