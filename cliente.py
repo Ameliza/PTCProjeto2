@@ -31,3 +31,29 @@ class Cliente():
         print('Resposta servidor:\n', acklogin)
 
         self.s.shutdown(SHUT_RDWR) # como receber mensagem de volta do servidor?
+
+    def request_test(self):
+        auth = provaonline_pb2.LOGIN()
+        auth.login = self.usuario
+        auth.senha = self.senha
+
+        data = auth.SerializeToString()
+        print('Mensagem codificada:', data)
+
+        self.s.send(data) # envia dados pelo socket
+
+        resposta = self.s.recv(1024)
+        acklogin = provaonline_pb2.ACK_LOGIN()
+        acklogin.ParseFromString(resposta)
+        print('Resposta servidor:\n', acklogin)
+
+        self.s.shutdown(SHUT_RDWR) # como receber mensagem de volta do servidor?
+
+    def send_replies(self): 
+        pass
+
+    def request_result(self):
+        pass
+
+    def logout(self):
+        pass
