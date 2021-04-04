@@ -65,3 +65,21 @@ print('Mensagem decodificada:')
 print('ID Prova:', copia2.token)
 print('Código Status: ', copia2.status.codigo)
 print('Descrição Status: ', copia2.status.descricao)
+
+msg = provaonline_pb2.MENSAGEM()
+msg.login.login = 'Ameliza'
+msg.login.senha = '12345'
+
+data3 = msg.SerializeToString()
+
+print('Mensagem codificada:', data3)
+
+copia3 = provaonline_pb2.MENSAGEM()
+copia3.ParseFromString(data3)
+
+if copia3.HasField('logout'): # se for mensagem de login
+    print('É LOGIN')
+else:
+    print('NÃO É LOGIN')
+
+
