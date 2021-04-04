@@ -3,28 +3,38 @@
 import sys
 from socket import*
 import provaonline_pb2
+from api import API
+
+
+
+def checklogin():
+    
+    # verifica se pode autenticar ...
+    
+    # se tudo OK
+    return API.ack_login('378rbf9sd')
+
+def logout():
+    print('LOGOUT')
 
 if __name__ == '__main__':
     s = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)
     s.bind(('0.0.0.0', 8888))
-    print('ok1')
     s.listen()                  # espera conexões na porta
-    print('ok2')
+    print('Esperando conexão...')
     # while True:
     con, addr = s.accept()
-    dados = con.recv(1024) # como verificar se o dado é do tipo login?
+    data = con.recv(1024)
+
+    msg,des = API.mensagem(data)
+    if des=='login': # se for mensagem de login
+        data = checklogin()
+        con.send(data)
+        con.shutdown(SHUT_RDWR)
+    elif des=='logout':
+        pass
+   
     copia = provaonline_pb2.LOGIN()
-    copia.ParseFromString(dados)
+    copia.ParseFromString(data)
     print('Mensagem chegou no servidor:\n', copia)
-    # verifica se está ok e envia mensagem de resposta
-    acklogin = provaonline_pb2.ACK_LOGIN()
-    acklogin.token = '378rbf9sd'
-    acklogin.status.codigo = 3627
-    acklogin.status.descricao = 'NÃO ESTÁ NO BANCO DE DADOS'
-
-    data = acklogin.SerializeToString()
-    # print('Mensagem codificada:', data)
-
-    con.send(data)
-
-    con.shutdown(SHUT_RDWR)
+    

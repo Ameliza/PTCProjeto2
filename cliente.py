@@ -3,7 +3,7 @@
 import sys
 from socket import*
 import provaonline_pb2
-from api_application import API_Application
+from api import API
 
 class Cliente():
     def __init__(self, login, senha):
@@ -16,28 +16,16 @@ class Cliente():
         self.s.bind(('0.0.0.0', 0))
         self.s.connect(('127.0.0.1', 8888)) # passar IP de destino por argumento de linha
 
-    def authenticate(self):
-        data = API_Application.authenticate(self.usuario, self.senha)
-
+    def login(self):
+        data = API.login(self.usuario, self.senha)
         print('Mensagem codificada:', data)
-
         self.s.send(data) # envia dados pelo socket
 
-        resposta = self.s.recv(1024)
-        acklogin = provaonline_pb2.ACK_LOGIN()
-        acklogin.ParseFromString(resposta)
-        print('Resposta servidor:\n', acklogin)
+        resp = self.s.recv(1024)
+        msg,des = API.mensagem(resp)
+        if des=='acklogin': # se for mensagem de acklogin
+            print('Resposta servidor:\n', msg)
+            print("token: ",msg.token)
+
 
         self.s.shutdown(SHUT_RDWR) # como receber mensagem de volta do servidor?
-
-    def request_test(self):
-        pass
-
-    def send_replies(self): 
-        pass
-
-    def request_result(self):
-        pass
-
-    def logout(self):
-        pass

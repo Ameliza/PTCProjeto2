@@ -24,7 +24,7 @@ def login():
     login = input("Login: ")
     senha = input("Senha: ")
     cliente = Cliente(login, senha)
-    cliente.authenticate() 
+    cliente.login() 
 
 def prova():
     print("prova")

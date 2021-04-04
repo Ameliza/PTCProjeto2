@@ -1,7 +1,5 @@
 syntax = "proto2";
 
-package exemplo;
-
 message MENSAGEM {
   oneof msg {
     LOGIN login = 1;
@@ -15,7 +13,7 @@ message MENSAGEM {
     REQ_RESP reqresp = 9;
   }
 }
-//---------------------------------
+
 message LOGIN {
     required string login = 1;
     required string senha = 2;
@@ -23,7 +21,7 @@ message LOGIN {
   
 message ACK_LOGIN {
     optional string token = 1;
-    required STATUS resposta = 2;
+    required STATUS status = 2;
 }
 
 message STATUS {
@@ -36,8 +34,7 @@ message REQ_PROVA {
   optional string id_prova = 2;
 }
 
-//-------------------------------------
-message Alternativa {
+message ALTERNATIVA {
   required string descricao = 1;
   required string codigo = 2;
 }
@@ -46,14 +43,14 @@ message QUESTAO {
   required int32 id = 1;
   required string enunciado = 2;
   optional int32 pontos = 3;
-  repeated Alternativa alternativas = 4;
+  repeated ALTERNATIVA alternativas = 4;
 }
 
 message ACK_REQ_PROVA {
   required string id_prova = 1;
   repeated QUESTAO questoes = 2;
 }
-//------------------------------------
+
 message CODIGOS {
     repeated string codigos = 1;
 }
@@ -71,12 +68,11 @@ message REQ_RESP {
   required string id_prova = 2;
   repeated RESPOSTA respostas = 3;
 }
-//-------------------------------------
+
 message REQ_RESULTADO {
   required string token = 1;
   required string id_prova = 2;
 }
-//------------------------------------
 
 message RESULTADO {
   required int32 questao = 1;
@@ -88,7 +84,7 @@ message ACK_REQ_RESULTADO {
   required int32 nota = 2;
   repeated RESULTADO questoes = 3;
 }
-//------------------------------------
+
 message LOGOUT {
   required string token = 1;
 }
