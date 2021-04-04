@@ -60,6 +60,4 @@ class API():
     def logout(token):
         m = provaonline_pb2.MENSAGEM()
         m.logout.token = token
-
-        data = m.SerializeToString()
-        return data
+        return m.SerializeToString()

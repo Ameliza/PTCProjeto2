@@ -26,11 +26,11 @@ def logout(msg):
 if __name__ == '__main__':
     s = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)
     s.bind(('0.0.0.0', 8888))
-    # s.listen()  # espera conexões na porta
+    s.listen()  # espera conexões na porta
     while True:
         print('Esperando conexão...')
-        s.listen()  # espera conexões na porta
         con, addr = s.accept()
+    
         data = con.recv(1024)
         print("conectou")
 
@@ -39,7 +39,6 @@ if __name__ == '__main__':
             print("LOGIN")
             data = checklogin(msg)
             con.send(data)
-            con.shutdown(SHUT_RDWR)
         elif des=='logout':
             print("LOGOUT")
             logout(msg)

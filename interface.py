@@ -40,8 +40,10 @@ def resultado():
 
 def logout():
     print("***** LOGOUT *****\n")
-    global cliente
-    print('cliente: ', cliente.usuario)
+    print('usuario: ', cliente.usuario)
+    print('senha: ', cliente.senha)
+    print('token: ', cliente.token)
+    
     cliente.logout()
     
 
