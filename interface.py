@@ -8,6 +8,8 @@ RESPOSTAS = '3'
 RESULTADO = '4'
 LOGOUT = '5'
 
+cliente = None
+
 def menu(switch):
     
     print("------ MENU ------")
@@ -23,8 +25,9 @@ def login():
     print("****** LOGIN *****\n")
     login = input("Login: ")
     senha = input("Senha: ")
+    global cliente
     cliente = Cliente(login, senha)
-    cliente.login() 
+    cliente.login()
 
 def prova():
     print("prova")
@@ -36,10 +39,13 @@ def resultado():
     print("resultado")
 
 def logout():
-    print("logout")
+    print("***** LOGOUT *****\n")
+    global cliente
+    print('cliente: ', cliente.usuario)
+    cliente.logout()
+    
 
 if __name__ == '__main__':
-    cliente = None
     switch = {
         LOGIN: login,
         PROVA: prova,
@@ -48,5 +54,8 @@ if __name__ == '__main__':
         LOGOUT: logout
     }
 
-    menu(switch)
+    while True:
+        menu(switch)
+    
+    cliente.close()
     

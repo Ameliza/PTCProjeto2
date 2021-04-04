@@ -20,7 +20,9 @@ class API():
             return l,"login"
 
         elif msg.HasField('logout'):
-            pass
+            l = provaonline_pb2.LOGOUT()
+            l.token = msg.logout.token
+            return l,"logout"
 
         elif msg.HasField('acklogin'):
             a = provaonline_pb2.ACK_LOGIN()
@@ -55,9 +57,9 @@ class API():
         return m.SerializeToString()
 
     
-    def logout():
+    def logout(token):
         m = provaonline_pb2.MENSAGEM()
-        m.logout.token = '378rbf9sd'
+        m.logout.token = token
 
         data = m.SerializeToString()
         return data

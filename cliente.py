@@ -16,6 +16,9 @@ class Cliente():
         self.s.bind(('0.0.0.0', 0))
         self.s.connect(('127.0.0.1', 8888)) # passar IP de destino por argumento de linha
 
+    def close(self):
+        self.s.shutdown(SHUT_RDWR) # como receber mensagem de volta do servidor?
+
     def login(self):
         data = API.login(self.usuario, self.senha)
         print('Mensagem codificada:', data)
@@ -26,6 +29,17 @@ class Cliente():
         if des=='acklogin': # se for mensagem de acklogin
             print('Resposta servidor:\n', msg)
             print("token: ",msg.token)
+            self.token = msg.token
 
+    
+    def logout(self):
+        data = API.logout(self.token)
+        print('Mensagem codificada:', data)
+        self.s.send(data) # envia dados pelo socket
 
-        self.s.shutdown(SHUT_RDWR) # como receber mensagem de volta do servidor?
+        # resp = self.s.recv(1024)
+        # msg,des = API.mensagem(resp)
+        # if des=='acklogin': # se for mensagem de acklogin
+        #     print('Resposta servidor:\n', msg)
+        #     print("token: ",msg.token)
+        #     self.token = msg.token
