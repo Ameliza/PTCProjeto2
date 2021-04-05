@@ -22,21 +22,13 @@ class Cliente():
         data = API.login(self.usuario, self.senha)
         print('Mensagem codificada:', data)
         self.s.send(data) # envia dados pelo socket
-
+        ## espera ack
         resp = self.s.recv(1024)
         msg,des = API.mensagem(resp)
         if des=='acklogin': # se for mensagem de acklogin
             print('Resposta servidor:\n', msg)
             print("token: ",msg.token)
             self.token = msg.token
-        self.s.shutdown(SHUT_RDWR) # como receber mensagem de volta do servidor?
-
-    
-    def logout(self):
-        self.connect()
-        data = API.logout(self.token)
-        print('Mensagem codificada:', data)
-        self.s.send(data) # envia dados pelo socket
         self.s.shutdown(SHUT_RDWR) # como receber mensagem de volta do servidor?
     
     def reqprova(self, id_prova):
@@ -45,12 +37,36 @@ class Cliente():
         print('Mensagem codificada:', data)
         self.s.send(data) # envia dados pelo socket
         ## espera ack
+        resp = self.s.recv(1024)
+        msg,des = API.mensagem(resp)
+        if des=='ackreqprova': # se for mensagem de acklogin
+            print('Resposta servidor:\n', msg)
         self.s.shutdown(SHUT_RDWR) # como receber mensagem de volta do servidor?
     
-    def reqresp(self, id_prova):
+    def reqresp(self, token, id_prova, respostas):
         self.connect()
-        data = API.reqprova(self.token, id_prova)
+        data = API.reqresp(self.token, id_prova, respostas)
+        print('Mensagem codificada:', data)
+        self.s.send(data) # envia dados pelo socket
+        ## ack??
+        self.s.shutdown(SHUT_RDWR) # como receber mensagem de volta do servidor?
+    
+    def reqresultado(self, token, id_prova):
+        self.connect()
+        data = API.reqresultado(self.token, id_prova)
         print('Mensagem codificada:', data)
         self.s.send(data) # envia dados pelo socket
         ## espera ack
+        resp = self.s.recv(1024)
+        msg,des = API.mensagem(resp)
+        if des=='ackreqresultado': # se for mensagem de acklogin
+            print('Resposta servidor:\n', msg)
+        self.s.shutdown(SHUT_RDWR) # como receber mensagem de volta do servidor?
+    
+    def logout(self):
+        self.connect()
+        data = API.logout(self.token)
+        print('Mensagem codificada:', data)
+        self.s.send(data) # envia dados pelo socket
+        ## ack??
         self.s.shutdown(SHUT_RDWR) # como receber mensagem de volta do servidor?

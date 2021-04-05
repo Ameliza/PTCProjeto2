@@ -22,7 +22,7 @@ def menu(switch):
     switch[option]()
 
 def login():
-    print("****** LOGIN *****\n")
+    print("------ LOGIN ------")
     login = input("Login: ")
     senha = input("Senha: ")
     global cliente
@@ -39,7 +39,7 @@ def resultado():
     print("resultado")
 
 def logout():
-    print("***** LOGOUT *****\n")
+    print("------ LOGOUT ------")
     print('usuario: ', cliente.usuario)
     print('senha: ', cliente.senha)
     print('token: ', cliente.token)
