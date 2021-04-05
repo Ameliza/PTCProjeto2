@@ -15,9 +15,9 @@ def checklogin(msg):
     if msg.login == usuario[0] and msg.senha == senha[0]:
         global token
         token = '378rbf9sd'
-        return API.ack_login(token)
+        return API.acklogin(token)
     else:
-        return API.ack_login('000000000')
+        return API.acklogin('000000000')
 
 def logout(msg):
     global token

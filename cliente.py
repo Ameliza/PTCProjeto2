@@ -38,3 +38,19 @@ class Cliente():
         print('Mensagem codificada:', data)
         self.s.send(data) # envia dados pelo socket
         self.s.shutdown(SHUT_RDWR) # como receber mensagem de volta do servidor?
+    
+    def reqprova(self, id_prova):
+        self.connect()
+        data = API.reqprova(self.token, id_prova)
+        print('Mensagem codificada:', data)
+        self.s.send(data) # envia dados pelo socket
+        ## espera ack
+        self.s.shutdown(SHUT_RDWR) # como receber mensagem de volta do servidor?
+    
+    def reqresp(self, id_prova):
+        self.connect()
+        data = API.reqprova(self.token, id_prova)
+        print('Mensagem codificada:', data)
+        self.s.send(data) # envia dados pelo socket
+        ## espera ack
+        self.s.shutdown(SHUT_RDWR) # como receber mensagem de volta do servidor?
