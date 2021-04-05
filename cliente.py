@@ -37,11 +37,4 @@ class Cliente():
         data = API.logout(self.token)
         print('Mensagem codificada:', data)
         self.s.send(data) # envia dados pelo socket
-
-        resp = self.s.recv(1024)
-        msg,des = API.mensagem(resp)
-        if des=='acklogin': # se for mensagem de acklogin
-            print('Resposta servidor:\n', msg)
-            print("token: ",msg.token)
-            self.token = msg.token
         self.s.shutdown(SHUT_RDWR) # como receber mensagem de volta do servidor?
